@@ -1,0 +1,21 @@
+---
+- name: Instalación de dependencias
+  apt:
+    name: conntrack
+    state: latest
+    
+- name: Descarga el binario
+  get_url:
+    url: "{{ url }}"
+    dest: /tmp/minikube
+
+- name: Cambia los permisos los binario
+  file:
+    path: /tmp/minikube
+    owner: "{{ usuario }}"
+    group: "{{ usuario }}"
+    mode: '0755'
+
+- name: Mover el binario 
+  shell: mv /tmp/minikube /usr/local/bin/
+

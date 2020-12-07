@@ -1,0 +1,8 @@
+---
+- hosts: 192.168.60.10
+  become: yes
+
+  roles:
+    - docker	
+    - kubectl
+    - minikube         

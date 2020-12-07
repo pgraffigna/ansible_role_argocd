@@ -1,0 +1,27 @@
+---
+- name: Instalación de dependencias
+  apt:
+    name: ['apt-transport-https', 'ca-certificates', 'curl', 'gnupg-agent', 'software-properties-common']
+    state: latest
+    update_cache: yes
+
+- name: Agrega la llave GPG de Docker
+  apt_key:
+    url: "{{ gpg }}"
+    state: present
+
+- name:  Agrega el repositorio stable
+  apt_repository:
+    repo: deb "{{ repo }}" xenial stable
+    state: present
+    
+- name: Instalación de docker-ce
+  apt:
+    name: "docker-ce={{ docker_ce }}"
+    update_cache: yes
+    
+- name: Agregar usuario a grupo Docker
+  user:
+    name: '{{ usuario }}'
+    groups: docker
+    append: yes    

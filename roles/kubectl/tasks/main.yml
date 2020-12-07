@@ -1,0 +1,25 @@
+---
+- name: Descarga el binario
+  get_url:
+    url: "{{ url }}"
+    dest: /tmp/kubectl
+
+- name: Cambia los permisos
+  file:
+    path: /tmp/kubectl
+    owner: "{{ usuario }}"
+    group: "{{ usuario }}"
+    mode: '0755'
+
+- name: Mover el binario
+  shell: mv /tmp/kubectl /usr/local/bin/
+
+- name: Instalación de dependencias
+  apt:
+    name: bash-completion
+    state: latest
+
+- name: Configurar bash-completion para kubectl
+  lineinfile:       
+    path: "{{ home }}/.bashrc"
+    line: source <(kubectl completion bash)
